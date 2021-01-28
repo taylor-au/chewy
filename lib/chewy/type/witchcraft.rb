@@ -103,7 +103,7 @@ module Chewy
                 {
                   #{non_proc_fields.map do |f|
                     key_name = f.value.is_a?(Symbol) || f.value.is_a?(String) ? f.value : f.name
-                    fetcher = "#{object}.has_key?(:#{key_name}) ? #{object}[:#{key_name}] : #{object}['#{key_name}']"
+                    fetcher = "#{object}.has_key?(:#{key_name}) ? #{object}[:#{key_name}] : #{object}&['#{key_name}']"
                     "'#{f.name}'.freeze => #{composed_value(f, fetcher, nesting)}"
                   end.join(', ')}
                 }
@@ -111,7 +111,7 @@ module Chewy
                 {
                   #{non_proc_fields.map do |f|
                     method_name = f.value.is_a?(Symbol) || f.value.is_a?(String) ? f.value : f.name
-                    "'#{f.name}'.freeze => #{composed_value(f, "#{object}.#{method_name}", nesting)}"
+                    "'#{f.name}'.freeze => #{composed_value(f, "#{object}&.#{method_name}", nesting)}"
                   end.join(', ')}
                 }
               end)
